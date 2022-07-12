@@ -1,0 +1,304 @@
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.TestcontainersJavaMigration
+displayName: Testcontainers Migrations
+description: Execute all migrations defined.
+recipeList:
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: org.testcontainers
+      artifactId: testcontainers-bom
+      newVersion: 1.17.x
+  - org.testcontainers.openrewrite.GetHostMigration
+  - org.testcontainers.openrewrite.UpgradeTestcontainersGradlePropertiesVersion:
+      newVersion: 1.17.x
+  - org.testcontainers.openrewrite.CassandraContainerConstructorMigration
+  - org.testcontainers.openrewrite.ClickHouseContainerConstructorMigration
+  - org.testcontainers.openrewrite.CockroachContainerConstructorMigration
+  - org.testcontainers.openrewrite.CouchbaseContainerConstructorMigration
+  - org.testcontainers.openrewrite.Db2ContainerConstructorMigration
+  - org.testcontainers.openrewrite.DynaliteContainerConstructorMigration
+  - org.testcontainers.openrewrite.ElasticsearchContainerConstructorMigration
+  - org.testcontainers.openrewrite.InfluxDBContainerConstructorMigration
+  - org.testcontainers.openrewrite.KafkaContainerConstructorMigration
+  - org.testcontainers.openrewrite.LocalStackContainerConstructorMigration
+  - org.testcontainers.openrewrite.MariaDBContainerConstructorMigration
+  - org.testcontainers.openrewrite.MockServerContainerConstructorMigration
+  - org.testcontainers.openrewrite.MongoDBContainerConstructorMigration
+  - org.testcontainers.openrewrite.MSSQLServerContainerConstructorMigration
+  - org.testcontainers.openrewrite.MySQLContainerConstructorMigration
+  - org.testcontainers.openrewrite.Neo4jContainerConstructorMigration
+  - org.testcontainers.openrewrite.NginxContainerConstructorMigration
+  - org.testcontainers.openrewrite.OracleContainerConstructorMigration
+  - org.testcontainers.openrewrite.OrientDBContainerConstructorMigration
+  - org.testcontainers.openrewrite.PostgreSQLContainerConstructorMigration
+  - org.testcontainers.openrewrite.PulsarContainerConstructorMigration
+  - org.testcontainers.openrewrite.RabbitMQContainerConstructorMigration
+  - org.testcontainers.openrewrite.SolrContainerConstructorMigration
+  - org.testcontainers.openrewrite.ToxiproxyContainerConstructorMigration
+  - org.testcontainers.openrewrite.VaultContainerConstructorMigration
+  - org.testcontainers.openrewrite.WithCopyToContainerMigration
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.GetHostMigration
+displayName: Testcontainers 1.15 migration from Testcontainers 1.17
+description: Replace getContainerIpAddress() with getHost
+recipeList:
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.testcontainers.containers.ContainerState getContainerIpAddress()
+      newMethodName: getHost
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.WithCopyToContainerMigration
+displayName: Testcontainers 1.15 migration from Testcontainers 1.17
+description: Replace withCopyFileToContainer(MountableFile, String) with withCopyToContainer(Transferable, String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateWithCopyToContainer
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.CassandraContainerConstructorMigration
+displayName: Use CassandraContainer(String)
+description: Move from CassandraContainer() to CassandraContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use CassandraContainer(String)
+      fqn: org.testcontainers.containers.CassandraContainer
+      code: new CassandraContainer<>("cassandra:3.11.2")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.ClickHouseContainerConstructorMigration
+displayName: Use ClickHouseContainer(String)
+description: Move from ClickHouseContainer() to ClickHouseContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use ClickHouseContainer(String)
+      fqn: org.testcontainers.containers.ClickHouseContainer
+      code: new ClickHouseContainer("yandex/clickhouse-server:18.10.3")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.CockroachContainerConstructorMigration
+displayName: Use CockroachContainer(String)
+description: Move from CockroachContainer() to CockroachContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use CockroachContainer(String)
+      fqn: org.testcontainers.containers.CockroachContainer
+      code: new CockroachContainer("cockroachdb/cockroach:v19.2.11")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.CouchbaseContainerConstructorMigration
+displayName: Use CouchbaseContainer(String)
+description: Move from CouchbaseContainer() to CouchbaseContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use CouchbaseContainer(String)
+      fqn: org.testcontainers.couchbase.CouchbaseContainer
+      code: new CouchbaseContainer("couchbase/server:6.5.1")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.Db2ContainerConstructorMigration
+displayName: Use Db2Container(String)
+description: Move from Db2Container() to Db2Container(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use Db2Container(String)
+      fqn: org.testcontainers.containers.Db2Container
+      code: new Db2Container("ibmcom/db2:11.5.0.0a")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.DynaliteContainerConstructorMigration
+displayName: Use DynaliteContainer(String)
+description: Move from DynaliteContainer() to DynaliteContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use DynaliteContainer(String)
+      fqn: org.testcontainers.dynamodb.DynaliteContainer
+      code: new DynaliteContainer("quay.io/testcontainers/dynalite:v1.2.1-1")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.ElasticsearchContainerConstructorMigration
+displayName: Use ElasticsearchContainer(String)
+description: Move from ElasticsearchContainer() to ElasticsearchContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use ElasticsearchContainer(String)
+      fqn: org.testcontainers.elasticsearch.ElasticsearchContainer
+      code: new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:7.9.2")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.InfluxDBContainerConstructorMigration
+displayName: Use InfluxDBContainer(String)
+description: Move from InfluxDBContainer() to InfluxDBContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use InfluxDBContainer(String)
+      fqn: org.testcontainers.containers.InfluxDBContainer
+      code: new InfluxDBContainer("influxdb:1.4.3")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.KafkaContainerConstructorMigration
+displayName: Use KafkaContainer(String)
+description: Move from KafkaContainer() to KafkaContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use KafkaContainer(String)
+      fqn: org.testcontainers.containers.KafkaContainer
+      code: new KafkaContainer("confluentinc/cp-kafka:5.4.3")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.LocalStackContainerConstructorMigration
+displayName: Use LocalStackContainer(String)
+description: Move from LocalStackContainer() to LocalStackContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use LocalStackContainer(String)
+      fqn: org.testcontainers.containers.localstack.LocalStackContainer
+      code: new LocalStackContainer("localstack/localstack:0.11.2")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.MariaDBContainerConstructorMigration
+displayName: Use MariaDBContainer(String)
+description: Move from MariaDBContainer() to MariaDBContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use MariaDBContainer(String)
+      fqn: org.testcontainers.containers.MariaDBContainer
+      code: new MariaDBContainer("mariadb:10.3.6")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.MockServerContainerConstructorMigration
+displayName: Use MockServerContainer(String)
+description: Move from MockServerContainer() to MockServerContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use MockServerContainer(String)
+      fqn: org.testcontainers.containers.MockServerContainer
+      code: new MockServerContainer("jamesdbloom/mockserver:mockserver-5.5.4")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.MongoDBContainerConstructorMigration
+displayName: Use MongoDBContainer(String)
+description: Move from MongoDBContainer() to MongoDBContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use MongoDBContainer(String)
+      fqn: org.testcontainers.containers.MongoDBContainer
+      code: new MongoDBContainer("mongo:4.0.10")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.MSSQLServerContainerConstructorMigration
+displayName: Use MSSQLServerContainer(String)
+description: Move from MSSQLServerContainer() to MSSQLServerContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use MSSQLServerContainer(String)
+      fqn: org.testcontainers.containers.MSSQLServerContainer
+      code: new MSSQLServerContainer<>("mcr.microsoft.com/mssql/server:2017-CU12")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.MySQLContainerConstructorMigration
+displayName: Use MySQLContainer(String)
+description: Move from MySQLContainer() to MySQLContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use MySQLContainer(String)
+      fqn: org.testcontainers.containers.MySQLContainer
+      code: new MySQLContainer<>("mysql:5.7.34")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.Neo4jContainerConstructorMigration
+displayName: Use Neo4jContainer(String)
+description: Move from Neo4jContainer() to Neo4jContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use Neo4jContainer(String)
+      fqn: org.testcontainers.containers.Neo4jContainer
+      code: new Neo4jContainer<>("neo4j:4.4")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.NginxContainerConstructorMigration
+displayName: Use NginxContainer(String)
+description: Move from NginxContainer() to NginxContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use NginxContainer(String)
+      fqn: org.testcontainers.containers.NginxContainer
+      code: new NginxContainer<>("nginx:1.9.4")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.OracleContainerConstructorMigration
+displayName: Use OracleContainer(String)
+description: Move from OracleContainer() to OracleContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use OracleContainer(String)
+      fqn: org.testcontainers.containers.OracleContainer
+      code: new OracleContainer("gvenzl/oracle-xe:18.4.0-slim")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.OrientDBContainerConstructorMigration
+displayName: Use OrientDBContainer(String)
+description: Move from OrientDBContainer() to OrientDBContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use OrientDBContainer(String)
+      fqn: org.testcontainers.containers.OrientDBContainer
+      code: new OrientDBContainer("orientdb:3.0.24-tp3")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.PostgreSQLContainerConstructorMigration
+displayName: Use PostgreSQLContainer(String)
+description: Move from PostgreSQLContainer() to PostgreSQLContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use PostgreSQLContainer(String)
+      fqn: org.testcontainers.containers.PostgreSQLContainer
+      code: new PostgreSQLContainer<>("postgres:9.6.12")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.PulsarContainerConstructorMigration
+displayName: Use PulsarContainer(String)
+description: Move from PulsarContainer() to PulsarContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use PulsarContainer(String)
+      fqn: org.testcontainers.containers.PulsarContainer
+      code: new PulsarContainer("apachepulsar/pulsar:2.10.0")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.RabbitMQContainerConstructorMigration
+displayName: Use RabbitMQContainer(String)
+description: Move from RabbitMQContainer() to RabbitMQContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use RabbitMQContainer(String)
+      fqn: org.testcontainers.containers.RabbitMQContainer
+      code: new RabbitMQContainer("rabbitmq:3.7.25-management-alpine")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.SolrContainerConstructorMigration
+displayName: Use SolrContainer(String)
+description: Move from SolrContainer() to SolrContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use SolrContainer(String)
+      fqn: org.testcontainers.containers.SolrContainer
+      code: new SolrContainer("solr:8.3.0")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.ToxiproxyContainerConstructorMigration
+displayName: Use ToxiproxyContainer(String)
+description: Move from ToxiproxyContainer() to ToxiproxyContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use ToxiproxyContainer(String)
+      fqn: org.testcontainers.containers.ToxiproxyContainer
+      code: new ToxiproxyContainer("shopify/toxiproxy:2.1.0")
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.testcontainers.openrewrite.VaultContainerConstructorMigration
+displayName: Use VaultContainer(String)
+description: Move from VaultContainer() to VaultContainer(String)
+recipeList:
+  - org.testcontainers.openrewrite.MigrateContainerConstructor:
+      displayName: Use VaultContainer(String)
+      fqn: org.testcontainers.vault.VaultContainer
+      code: new VaultContainer<>("vault:1.1.3")
